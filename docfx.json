@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../FFXIVClientStructs/FFXIVClientStructs",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "output": "api",
+      "filter": "filterConfig.yml",
+      "shouldSkipMarkup": true
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**",
+          "FFXIVClientStructs/**",
+          "filterConfig.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "FFXIVClientStructs",
+      "_appTitle": "FFXIVClientStructs",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}

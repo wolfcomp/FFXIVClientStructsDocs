@@ -1,0 +1,20 @@
+name: PR Check
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: ./FFXIVClientStructs/.github/composites/update-dotnet
+      - name: Install docfx
+        run: dotnet tool install -g docfx
+      - name: Build page
+        run: docfx

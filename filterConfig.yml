@@ -1,0 +1,20 @@
+attributeRules:
+- exclude:
+    uidRegex: System\.ObsoleteAttribute$
+    type: Type
+apiRules:
+- exlude:
+    uidRegex: ^System\.Object
+    type: Type
+- exclude:
+    uidRegex: ^System\.ValueType
+    type: Type
+- exclude:
+    uidRegex: ^FFXIVClientStructs\.Attributes
+    type: Type
+- exclude:
+    uidRegex: ^FFXIVClientStructs\.Interop
+    type: Type
+- exclude:
+    uidRegex: ^FFXIVClientStructs[\w\.]*Delegates
+    type: Type
