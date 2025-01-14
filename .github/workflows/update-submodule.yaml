@@ -31,7 +31,7 @@ jobs:
       id: git-check
       run: |
         echo "========== check paths of modified files =========="
-        git diff > files.txt
+        git diff --name-only > files.txt
         echo "=============== list modified files ==============="
         tail files.txt
         while IFS= read -r file
