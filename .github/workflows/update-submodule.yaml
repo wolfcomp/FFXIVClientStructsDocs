@@ -8,20 +8,13 @@ jobs:
   update:
     name: Update FFXIVCS
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        branches: [main]
-    
+    if: github.ref_name == "main"
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         submodules: true
         ref: ${{ matrix.branches }}
-    - name: Initialize mandatory git config
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
     - name: Update submodule
       run: |
         cd FFXIVClientStructs
@@ -49,6 +42,8 @@ jobs:
     - name: Commit update
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add .
         git commit -m "Update Submodule"
         git push
