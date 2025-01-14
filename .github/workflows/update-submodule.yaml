@@ -1,0 +1,54 @@
+name: Update FFXIVCS
+on:
+  schedule:
+    - cron: "0 0 */1 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update FFXIVCS
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branches: [main]
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+        ref: ${{ matrix.branches }}
+    - name: Initialize mandatory git config
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - name: Update submodule
+      run: |
+        cd FFXIVClientStructs
+        git reset --hard origin/main
+        cd ..
+    - name: Check if updated
+      id: git-check
+      run: |
+        echo "========== check paths of modified files =========="
+        git diff > files.txt
+        echo "=============== list modified files ==============="
+        tail files.txt
+        while IFS= read -r file
+        do
+          echo $file
+          if [[ $file != FFXIVClientStructs ]]; then
+            echo "This modified file is not the submodule."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            break
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+        done < files.txt
+        rm files.txt
+    - name: Commit update
+      if: steps.git-check.outputs.has_changes == 'true'
+      run: |
+        git add .
+        git commit -m "Update Submodule"
+        git push
