@@ -15,6 +15,7 @@ jobs:
       with:
         submodules: true
         ref: ${{ matrix.branches }}
+        token: ${{ secrets.UPDATE_PAT }}
     - name: Update submodule
       run: |
         cd FFXIVClientStructs
