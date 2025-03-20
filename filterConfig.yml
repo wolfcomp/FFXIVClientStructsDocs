@@ -13,9 +13,6 @@ apiRules:
     uidRegex: ^FFXIVClientStructs\.Attributes
     type: Type
 - exclude:
-    uidRegex: ^FFXIVClientStructs\.Interop
-    type: Type
-- exclude:
     uidRegex: ^FFXIVClientStructs[\w\.]*Delegates
     type: Type
 - exclude:
