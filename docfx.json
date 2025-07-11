@@ -4,15 +4,14 @@
     {
       "src": [
         {
-          "src": "./FFXIVClientStructs/FFXIVClientStructs",
-          "files": [
-            "**/*.csproj"
-          ]
+          "files": ["**/bin/Release/FFXIVClientStructs.dll"],
+          "src": "./FFXIVClientStructs"
         }
       ],
       "output": "api",
       "filter": "filterConfig.yml",
-      "shouldSkipMarkup": true
+      "shouldSkipMarkup": true,
+      "namespaceLayout": "nested"
     }
   ],
   "build": {
