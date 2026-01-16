@@ -22,6 +22,6 @@ jobs:
       - name: Create metadata files
         run: docfx metadata
       - name: Correct properties
-        run: dotnet run --project .\DocFixer\DocFixer.csproj
+        run: dotnet run --project ./DocFixer/DocFixer.csproj
       - name: Build page
         run: docfx build
