@@ -19,5 +19,9 @@ jobs:
         run: dotnet tool install -g docfx
       - name: Build CS
         run: dotnet build -c Release FFXIVClientStructs/FFXIVClientStructs/FFXIVClientStructs.csproj
+      - name: Create manifest files
+        run: docfx manifest
+      - name: Correct properties
+        run: dotnet run --project .\DocFixer\DocFixer.csproj
       - name: Build page
-        run: docfx
+        run: docfx build

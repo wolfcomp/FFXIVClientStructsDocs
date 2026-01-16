@@ -36,8 +36,8 @@
     ],
     "output": "_site",
     "template": [
-      "default",
-      "modern"
+      "_exported_templates/default",
+      "_exported_templates/modern"
     ],
     "globalMetadata": {
       "_appName": "FFXIVClientStructs",
