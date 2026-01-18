@@ -17,6 +17,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  dotnet-ver: "10.x"
+  docfx-ver: "2.78.4"
+
 jobs:
   publish-docs:
     environment:
@@ -31,9 +35,10 @@ jobs:
       - name: Dotnet Setup
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 10.x
+          dotnet-version: ${{ env.dotnet-ver }}
+      - name: Install docfx
 
-      - run: dotnet tool update -g docfx
+        run: dotnet tool update -g docfx --version ${{ env.docfx-ver }}
       - name: Build Project
         run: dotnet build -c Release FFXIVClientStructs/FFXIVClientStructs/FFXIVClientStructs.csproj
       - name: Create metadata files
