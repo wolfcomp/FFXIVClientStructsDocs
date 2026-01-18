@@ -9,21 +9,28 @@ Here you will find knowledge bits to help reverse engineer the game through vari
 | Binja            | <img id="img-notnite" width="24" /> [NotNite](https://github.com/NotNite)    |
 
 ## IDA Versions
-- IDA 9 :x: [reason here](https://github.com/aers/FFXIVClientStructs/issues/1235)
-- IDA 8 :white_check_mark:
 - IDA 7 :white_check_mark:
+- IDA 8 :white_check_mark:
+- IDA 9 :question: (*incomplete and still being worked on by <img id="img-caitlyn" width="24" />[Caitlyn](https://github.com/caitlyn-gg)*)
+
+> [!IMPORTANT]
+> Full padding will take days to complete on IDA 9
 
 
 <script>
+    var users = {
+        "wildwolf": "wolfcomp",
+        "pohky": "pohky",
+        "notnite": "notnite",
+        "caitlyn": "caitlyn-gg",
+    };
 (function(){
-    fetch("https://api.github.com/users/wolfcomp").then(res => res.json()).then(ret => {
-        document.querySelector("#img-wildwolf").src = ret.avatar_url;
-    });
-    fetch("https://api.github.com/users/pohky").then(res => res.json()).then(ret => {
-        document.querySelector("#img-pohky").src = ret.avatar_url;
-    });
-    fetch("https://api.github.com/users/notnite").then(res => res.json()).then(ret => {
-        document.querySelector("#img-notnite").src = ret.avatar_url;
+    Object.keys(users).forEach(v => {
+        fetch(`https://api.github.com/users/${users[v]}`).then(res => res.json()).then(ret => {
+            var elem = document.querySelector(`#img-${v}`);
+            if (!!elem)
+                elem.src = ret.avatar_url;
+        });
     });
 })()
 </script>
