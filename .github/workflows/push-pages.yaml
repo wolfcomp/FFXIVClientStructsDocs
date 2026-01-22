@@ -45,6 +45,8 @@ jobs:
         run: docfx metadata
       - name: Correct properties
         run: dotnet run --project ./DocFixer/DocFixer.csproj
+      - name: Copy main info file
+        run: cp FFXIVClientStructs/README.md index.md
       - name: Build page
         run: docfx build
 
