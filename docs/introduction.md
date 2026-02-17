@@ -16,6 +16,14 @@ Here you will find knowledge bits to help reverse engineer the game through vari
 > [!IMPORTANT]
 > Full padding will take days to complete on IDA 9
 
+### Why does bitfields not get imported with IDA?
+This is due to internal limitations with the API surface used to create structs within the Python API. Bellow are the pros and cons of the different API calls that can be made in order to create a struct, and currently we use the first option.
+
+| Api Call                            | Pro                                     | Cons                                                                             |
+| ----------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------- |
+| ida_struct.add_struc_member (< 8.3) | Allows for setting at a specific offset | Very limiting about what can be set due to relliance on type id                  |
+| ida_typeinf.parse_decl              | Allows for parsing of C files           | Doesn't allow for C++ chracter types where we use template characters from C++   |
+| ida_srclang.parse_decls_with_parser | Allows for parsing of C++ headers       | Requires a full export of Virtual Table list as their defined in the C++ headers |
 
 <script>
     var users = {
