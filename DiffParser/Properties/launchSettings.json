@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DiffParser": {
+      "commandName": "Project",
+      "workingDirectory": "./",
+      "commandLineArgs": "../FFXIVClientStructs origin/main origin/api15 test.diff"
+    }
+  }
+}

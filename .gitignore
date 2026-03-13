@@ -2,6 +2,7 @@ _site/
 api/
 .vscode/
 .vs/
-DocFixer/bin/
-DocFixer/obj/
+*/bin/
+*/obj/
 index.md
+*.diff

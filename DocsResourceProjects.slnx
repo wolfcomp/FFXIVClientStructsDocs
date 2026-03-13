@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DiffParser/DiffParser.csproj" />
+  <Project Path="DocFixer/DocFixer.csproj" />
+</Solution>
