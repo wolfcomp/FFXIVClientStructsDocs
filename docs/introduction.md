@@ -14,7 +14,7 @@ Here you will find knowledge bits to help reverse engineer the game through vari
 - IDA 9 :question: (*incomplete and still being worked on by <img id="img-caitlyn" width="24" />[Caitlyn](https://github.com/caitlyn-gg)*)
 
 > [!IMPORTANT]
-> Full padding will take days to complete on IDA 9
+> Full padding will take 3+ hours to complete on IDA 9
 
 ### Why does bitfields not get imported with IDA?
 This is due to internal limitations with the API surface used to create structs within the Python API. Bellow are the pros and cons of the different API calls that can be made in order to create a struct, and currently we use the first option.
