@@ -5,4 +5,5 @@ api/
 */bin/
 */obj/
 index.md
-*.diff
+output/
+*/output/
