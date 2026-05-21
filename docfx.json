@@ -5,7 +5,12 @@
       "src": [
         {
           "files": ["**/bin/Release/FFXIVClientStructs.dll"],
-          "src": "./FFXIVClientStructs"
+          "src": "./FFXIVClientStructs",
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/*.g.cs",
+          ]
         }
       ],
       "output": "api",
