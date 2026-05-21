@@ -50,6 +50,22 @@ jobs:
         run: dotnet run --project ./DocFixer/DocFixer.csproj
       - name: Copy main info file
         run: cp FFXIVClientStructs/README.md index.md
+      - name: Fix hrefs
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          shopt -s nullglob
+
+          for file in api/*.yml; do
+              first=$(grep -m1 -E '^    href: https://github\.com/aers/FFXIVClientStructs/' "$file" || true)
+              [[ -z "$first" ]] && continue
+
+              awk -v r="$first" '
+                  $0 ~ /^    href: https:\/\/github\.com\/aers\/FFXIVClientStructs\// { print r; next }
+                  { print }
+              ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+          done
+
       - name: Build page
         run: docfx build
 
