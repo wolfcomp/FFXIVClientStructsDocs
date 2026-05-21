@@ -7,9 +7,8 @@
           "files": ["**/bin/Release/FFXIVClientStructs.dll"],
           "src": "./FFXIVClientStructs",
           "exclude": [
-            "**/bin/**",
             "**/obj/**",
-            "**/*.g.cs",
+            "**/*.g.cs"
           ]
         }
       ],
