@@ -61,3 +61,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Upload api manifest
+        uses: actions/upload-artifact@v7
+        with:
+          name: api
+          path: api/
