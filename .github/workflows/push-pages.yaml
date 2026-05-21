@@ -1,9 +1,12 @@
+name: Build and Publish
+
 # Your GitHub workflow file under .github/workflows/
 # Trigger the action on push to main
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
