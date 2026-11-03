@@ -6,18 +6,20 @@ Here you will find knowledge bits to help reverse engineer the game through vari
 | ---------------- | ---------------------------------------------------------------------------- |
 | IDA              | <img id="img-wildwolf" width="24" /> [WildWolf](https://github.com/wolfcomp) |
 | Ghidra           | <img id="img-pohky" width="24" /> [Pohky](https://github.com/pohky)          |
-| Binja            | <img id="img-notnite" width="24" /> [NotNite](https://github.com/NotNite)    |
+
+### Other related script people
+<img id="img-caitlyn" width="24" />[Caitlyn](https://github.com/caitlyn-gg) for their initial IDA 9 implementation.
 
 ## IDA Versions
-- IDA 7 :white_check_mark:
-- IDA 8 :white_check_mark:
-- IDA 9 :question: (*incomplete and still being worked on by <img id="img-caitlyn" width="24" />[Caitlyn](https://github.com/caitlyn-gg)*)
+- IDA 7 :white_check_mark: (*Being phased out with Evercold*)
+- IDA 8 :white_check_mark: (*Being phased out with Evercold*)
+- IDA 9 :white_check_mark: (*Use branch 8.0-work for optimal performance*)
 
 > [!IMPORTANT]
-> Full padding will take 3+ hours to complete on IDA 9
+> With the new script reimports will take longer on an existing import base but is less than 10 minutes on a fresh database
 
 ### Why does bitfields not get imported with IDA?
-This is due to internal limitations with the API surface used to create structs within the Python API. Bellow are the pros and cons of the different API calls that can be made in order to create a struct, and currently we use the first option.
+This is due to internal limitations with the API surface used to create structs within the Python API and type library. Bellow are the pros and cons of the different API calls that can be made in order to create a struct, and currently we use the first option. With the 8.0-work it will switch over to using the last option still bitfields are not supported there due to an issue in IDAs type library.
 
 | Api Call                            | Pro                                     | Cons                                                                             |
 | ----------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------- |
@@ -29,7 +31,6 @@ This is due to internal limitations with the API surface used to create structs 
     var users = {
         "wildwolf": "wolfcomp",
         "pohky": "pohky",
-        "notnite": "notnite",
         "caitlyn": "caitlyn-gg",
     };
 (function(){
