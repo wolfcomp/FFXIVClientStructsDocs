@@ -33,7 +33,13 @@ if (args.Length > 0 && string.Equals(args[0], "analyze-diff", StringComparison.O
     return;
 }
 
-var structAndEnumSearchValue = SearchValues.Create(["struct", "enum"], StringComparison.Ordinal);
+if (args.Length > 0 && string.Equals(args[0], "breaking-docs", StringComparison.OrdinalIgnoreCase))
+{
+    BreakingChangesDocGenerator.Run(args);
+    return;
+}
+
+var structAndEnumSearchValue =SearchValues.Create(["struct", "enum"], StringComparison.Ordinal);
 var generatedTypesSearchValue = new string[] { "Delegates", "Addresses", "MemberFunctionPointers", "VirtualTable" };
 
 if (args.Length < 4)

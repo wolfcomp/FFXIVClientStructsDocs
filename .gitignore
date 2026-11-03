@@ -7,3 +7,5 @@ api/
 index.md
 output/
 */output/
+generate-breaking.md
+*.diff
