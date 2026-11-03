@@ -8,7 +8,7 @@ concurrency:
 
 env:
   dotnet-ver: '10.x'
-  docfx-ver: '2.78.4'
+  docfx-ver: '2.81.0'
 
 jobs:
   build:
