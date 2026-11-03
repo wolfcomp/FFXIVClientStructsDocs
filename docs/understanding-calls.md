@@ -18,7 +18,18 @@ The first four arguments are passed in registers, everything after that goes on 
 > [!IMPORTANT]
 > Slots are positional, not per type. A function `void Foo(int a, float b, int c)` receives `a` in `rcx`, `b` in `xmm1` and `c` in `r8`. The unused `rdx` and `xmm0` are simply ignored.
 
-Smaller integer types still occupy a full slot, but only the lower part of the register is meaningful, which is why the 32-, 16- and 8-bit register names often show up before a call. So `mov edx, 1` before a call usually means the second argument is a 32-bit value (`int`, `uint`, an enum) and `mov r8b, 1` / `xor r8d, r8d` usually indicates a `bool` or `byte` as the third argument.
+Smaller integer types still occupy a full slot, but only the lower part of the register is meaningful, which is why the 32-, 16- and 8-bit register names often show up before a call. The width the compiler writes to hints at the argument's type:
+
+| Instruction                       | Likely argument type                                                   |
+| --------------------------------- | ---------------------------------------------------------------------- |
+| `mov edx, 1`                      | 32-bit value (`int`, `uint`, an enum)                                  |
+| `mov dl, 1`                       | `bool` (`true`) or `byte` constant                                     |
+| `setz dl`, `setnz r8b`, ...       | `bool` produced from a comparison                                      |
+| `movzx r8d, byte ptr [rbx+30h]`   | `bool` or `byte` loaded from a field                                   |
+| `xor edx, edx`                    | Zero of **any** type (`false`, `0`, `nullptr`), not a size hint        |
+
+> [!NOTE]
+> Writing a 32-bit register (`edx`) clears the upper 32 bits of the full register (`rdx`), while writing an 8- or 16-bit register (`dl`, `dx`) leaves the rest unchanged. This is why the compiler zeroes with `xor edx, edx` no matter the type, and why a `bool` argument can only be trusted in its lowest byte: the callee will read it with `test dl, dl` or `movzx`, never the full `rdx`.
 
 ### Structs passed by value
 Structs that are exactly 1, 2, 4 or 8 bytes are passed directly in the register like an integer. Anything else (including most vectors such as `Vector3`) is copied to the stack by the caller and a **pointer** to that copy is passed in the slot instead.
@@ -106,8 +117,9 @@ When reading backwards from a call to find where an argument came from, a value 
 
 ### Direct calls
 ```x86asm
+mov     r9b, 1                  ; arg4: bool (true)
 mov     r8d, 5                  ; arg3: int
-mov     edx, 1                  ; arg2: int / bool
+xor     edx, edx                ; arg2: 0 of any type (int / bool / pointer)
 mov     rcx, rdi                ; arg1: this
 call    sub_140123450
 ```
