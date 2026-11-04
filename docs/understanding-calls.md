@@ -7,13 +7,16 @@ The game is compiled with MSVC for Windows x64, which means every function follo
 ## Argument registers
 The first four arguments are passed in registers, everything after that goes on the stack. Each argument takes a slot based on its position, and the register used for that slot depends on whether the argument is an integer/pointer or a floating point value.
 
-| Argument | Integer / Pointer (64-bit)    | 32-bit | 16-bit | 8-bit  | Float / Double | Notes                                  |
-| -------- | ----------------------------- | ------ | ------ | ------ | -------------- | -------------------------------------- |
-| 1        | `rcx`                         | `ecx`  | `cx`   | `cl`   | `xmm0`         | `this` for member functions            |
-| 2        | `rdx`                         | `edx`  | `dx`   | `dl`   | `xmm1`         |                                        |
-| 3        | `r8`                          | `r8d`  | `r8w`  | `r8b`  | `xmm2`         |                                        |
-| 4        | `r9`                          | `r9d`  | `r9w`  | `r9b`  | `xmm3`         |                                        |
-| 5+       | `[rsp+20h]`, `[rsp+28h]`, ... |        |        |        | same           | Pushed right to left, 8 bytes per slot |
+| Argument | Integer / Pointer (64-bit) | 32-bit                | 16-bit               | 8-bit                | Float / Double                                 | Notes                                    |
+| -------- | -------------------------- | --------------------- | -------------------- | -------------------- | ---------------------------------------------- | ---------------------------------------- |
+| 1        | `rcx`                      | `ecx`                 | `cx`                 | `cl`                 | `xmm0`                                         | `this` for member functions              |
+| 2        | `rdx`                      | `edx`                 | `dx`                 | `dl`                 | `xmm1`                                         |                                          |
+| 3        | `r8`                       | `r8d`                 | `r8w`                | `r8b`                | `xmm2`                                         |                                          |
+| 4        | `r9`                       | `r9d`                 | `r9w`                | `r9b`                | `xmm3`                                         |                                          |
+| 5        | `qword ptr [rsp+20h]`      | `dword ptr [rsp+20h]` | `word ptr [rsp+20h]` | `byte ptr [rsp+20h]` | `dword ptr [rsp+20h]` / `qword ptr [rsp+20h]`  | Each later argument is 8 bytes further   |
+| 6        | `qword ptr [rsp+28h]`      | `dword ptr [rsp+28h]` | `word ptr [rsp+28h]` | `byte ptr [rsp+28h]` | `dword ptr [rsp+28h]` / `qword ptr [rsp+28h]`  | (`[rsp+30h]`, `[rsp+38h]`, ...)          |
+
+Stack arguments always get a full 8-byte slot, and smaller values are written to the low bytes at the start of it. That keeps the address the same no matter the size, only the operand size changes (for example `mov byte ptr [rsp+20h], 1` for a `bool` or `movss dword ptr [rsp+28h], xmm0` for a `float`). The addresses are from the caller's point of view right before the `call`; inside the callee they are 8 higher because of the return address (`[rsp+28h]` for the 5th argument at entry).
 
 > [!IMPORTANT]
 > Slots are positional, not per type. A function `void Foo(int a, float b, int c)` receives `a` in `rcx`, `b` in `xmm1` and `c` in `r8`. The unused `rdx` and `xmm0` are simply ignored.
