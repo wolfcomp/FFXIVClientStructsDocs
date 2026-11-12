@@ -159,7 +159,7 @@ The opcode and ModR/M bytes (`48 8B 89`) are kept, so the pattern still says "lo
 > Keep a value when it is the thing that makes the code unique and is unlikely to change, such as a small constant (`mov edx, 5` → `BA 05 00 00 00`), a hash, or a flag mask. If the signature is still unique with the value wildcarded, prefer wildcarding it.
 
 #### Relative follow offsets
-`[StaticAddress]` and `[VirtualTable]` take one or more offsets in addition to the signature. Each offset tells the resolver where a 32-bit relative value starts, which can be **any** rel32 or RIP-relative disp32 in the matched bytes, not just the first `??`. The resolver reads the value there and moves to `offset + 4 + value`, so the dword it reads should always be wildcarded:
+`[StaticAddress]`, `[VirtualTable]`, and `[MemberFunction]` can take one or more offsets in addition to the signature. Each offset tells the resolver where a 32-bit relative value starts, which can be **any** rel32 or RIP-relative disp32 in the matched bytes, not just the first `??`. The resolver reads the value there and moves to `offset + 4 + value`, so the dword it reads should always be wildcarded:
 
 ```csharp
 [StaticAddress("48 8D 0D ?? ?? ?? ?? F3 0F 10 13", 3)]
