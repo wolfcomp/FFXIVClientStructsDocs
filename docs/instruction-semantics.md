@@ -217,4 +217,4 @@ The bad signature fails for several reasons:
 The same applies in the other direction: a signature taken from the middle of a function should not continue past its `ret` into whatever comes next. If a function is too short to be unique on its own, use a call site of it as described in [Calls as signatures](#calls-as-signatures) instead of extending the pattern into a neighbor.
 
 > [!TIP]
-> Before saving a signature, check that it still matches exactly one location (in IDA with **Search > Sequence of bytes** or a plugin such as SigMaker). A signature that only stays unique because of the bytes around a function boundary is a sign it should be taken from somewhere else.
+> Before saving a signature, check that it still matches exactly one location (in IDA with **Search > Sequence of bytes** or a plugin such as [SigMaker](https://github.com/A200K/IDA-Pro-SigMaker)). A signature that only stays unique because of the bytes around a function boundary is a sign it should be taken from somewhere else.
