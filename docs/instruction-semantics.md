@@ -193,17 +193,17 @@ Here the bytes after the call (`test al, al` / `jz` / `mov rcx, rbx`) belong to 
 Signatures that span more than one function come with a number of issues. A pattern that starts at the end of one function and runs into the start of the next one, typically from a `ret` (`C3`) through the `CC` padding into a `sub rsp`, looks unique but breaks easily:
 
 ```x86asm
-.text:1401234A8  48 83 C4 20        add     rsp, 20h
-.text:1401234AC  5B                 pop     rbx
-.text:1401234AD  C3                 retn                    ; end of sub_140123480
-.text:1401234AE  CC CC              align 10h
-.text:1401234B0  48 83 EC 28        sub     rsp, 28h        ; start of sub_1401234B0
-.text:1401234B4  48 8B 89 A8 01 00 00   mov rcx, [rcx+1A8h]
+8B 05 52 D8 06 01 mov     eax, cs:dword_142F69028 ; start of sub_141EFB7D0
+C3                retn                    ; end of sub_141EFB7D0
+CC ... CC CC CC   align 10h
+C2 00 00          retn    0               ; nullsub
+CC ... CC CC CC   align 10h
+40 53             push    rbx             ; 
 ```
 
 ```
-Bad:   5B C3 CC CC 48 83 EC 28 48 8B 89 ?? ?? ?? ??
-Good:  48 83 EC ?? 48 8B 89 ?? ?? ?? ?? 48 85 C9 74 ??
+Bad:   8B 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC CC C2 00 00 CC CC CC CC CC CC CC CC CC CC CC CC CC 40 53
+Good:  E8 ?? ?? ?? ?? 83 F8 01 74 ?? 48 8B 03
 ```
 
 The bad signature fails for several reasons:
